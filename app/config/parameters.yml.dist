@@ -24,3 +24,5 @@ parameters:
     hwi_oauth.access_token_url:  https://path.to/oauth/v2/token
     hwi_oauth.authorization_url: https://path.to/oauth/v2/authorize
     hwi_oauth.infos_url:         https://path.to/api/user
+
+    hwi_oauth.user.provider.fosub_bridge.class: AppBundle\Security\Core\User\FOSUBUserProvider
