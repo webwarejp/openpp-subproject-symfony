@@ -1,17 +1,23 @@
 hwi_oauth:
     # name of the firewall in which this bundle is active, this setting MUST be set
     firewall_name: main
+    fosub:
+        # try 30 times to check if a username is available (foo, foo1, foo2 etc)
+        username_iterations: 30
+        properties:
+            # these properties will be used/redefined later in the custom FOSUBUserProvider service.
+            my_custom: my_custom_id
     resource_owners:
-            my_custom:
-                type:                oauth2
-                client_id:           <client_id>
-                client_secret:       <client_secret>
-                access_token_url:    https://path.to/oauth/v2/token
-                authorization_url:   https://path.to/oauth/v2/authorize
-                infos_url:           https://path.to/api/user
-                scope:               "read"
-                user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
-                paths:
-                    identifier: id
-                    nickname:   username
-                    realname:   fullname
+        my_custom:
+            type:                oauth2
+            client_id:           %hwi_oauth.client_id%
+            client_secret:       %hwi_oauth.client_secret%
+            access_token_url:    %hwi_oauth.access_token_url%
+            authorization_url:   %hwi_oauth.authorization_url%
+            infos_url:           %hwi_oauth.infos_url%
+            scope:               "api_user_me"
+            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            paths:
+                identifier:      uid
+                nickname:        username
+                realname:        username

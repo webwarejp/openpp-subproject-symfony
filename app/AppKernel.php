@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             // USER
             new FOS\UserBundle\FOSUserBundle(),
             //OAUTH
-            //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

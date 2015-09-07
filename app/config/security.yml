@@ -11,8 +11,9 @@ security:
 
     providers:
         fos_userbundle:
-#            id: hwi_oauth.user.provider.fosub_bridge
             id: fos_user.user_provider.username
+#            id: hwi_oauth.user.provider.fosub_bridge
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -29,7 +30,15 @@ security:
 
             logout:       true
             anonymous:    true
+            oauth:
+                resource_owners:
+                    my_custom: "/login/check-custom"
+                login_path:        /connect/my_custom
+                failure_path:      /connect
 
+                # FOSUB integration
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider.fosub_bridge
 
     access_control:
         - { path: ^/$, role: ROLE_USER }
