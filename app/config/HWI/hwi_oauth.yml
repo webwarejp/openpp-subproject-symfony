@@ -18,6 +18,6 @@ hwi_oauth:
             scope:               "api_user_me"
             user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
             paths:
-                identifier:      uid
-                nickname:        username
-                realname:        username
+                identifier:      objectId
+                nickname:        userName
+                realname:        userName
