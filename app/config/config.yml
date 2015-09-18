@@ -4,6 +4,7 @@ imports:
     - { resource: services.yml }
     #FOS
     - { resource: FOS/fos_user.yml }
+    - { resource: FOS/fos_rest.yml }
     #HWI
     - { resource: HWI/hwi_oauth.yml }
 
@@ -34,6 +35,9 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    #fosrestbundle required
+    serializer:
+        enabled: true
 
 # Twig Configuration
 twig:

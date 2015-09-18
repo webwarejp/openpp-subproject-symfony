@@ -1,9 +1,20 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-#    parameter_name: value
+    oauth2.resource_owner.name: my_custom
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    oauth2.security.authentication.listener:
+        class:  AppBundle\Security\Http\Firewall\OAuthApiListener
+        arguments:
+            - @security.token_storage
+            - @security.authentication.manager
+            - @logger
+            - %oauth2.resource_owner.name%
+
+    oauth2.security.authentication.provider:
+        class:  AppBundle\Security\Core\Authentication\Provider\OAuthApiProvider
+        arguments:
+            - @hwi_oauth.user.provider.fosub_bridge
+            - @hwi_oauth.resource_ownermap.main
+            - @hwi_oauth.user_checker

@@ -20,6 +20,10 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        ## api firewall
+        api:
+            pattern:   ^/api/
+            oauth-api: true
 
         main:
             pattern: ^/
@@ -35,14 +39,15 @@ security:
                     my_custom: "/login/check-custom"
                 login_path:        /connect/my_custom
                 failure_path:      /connect
-
-                # FOSUB integration
                 oauth_user_provider:
                     service: hwi_oauth.user.provider.fosub_bridge
 
     access_control:
-        - { path: ^/$, role: ROLE_USER }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        # api server
+        - { path: ^/api,       role: ROLE_USER } ##ROLE_USER
+
+        - { path: ^/$,         role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login$,    role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register,  role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/admin/,    role: ROLE_ADMIN }

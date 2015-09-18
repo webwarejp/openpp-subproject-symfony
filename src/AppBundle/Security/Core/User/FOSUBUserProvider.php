@@ -6,6 +6,10 @@ use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseClass;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Util\Inflector as Inflector;
 
+/**
+ * Class FOSUBUserProvider
+ * @package AppBundle\Security\Core\User
+ */
 class FOSUBUserProvider extends BaseClass
 {
     /**
@@ -37,6 +41,7 @@ class FOSUBUserProvider extends BaseClass
             $this->userManager->updateUser($user);
             return $user;
         }
+        
         //if user exists - go with the HWIOAuth way
         $user = parent::loadUserByOAuthUserResponse($response);
         $serviceName = $response->getResourceOwner()->getName();
