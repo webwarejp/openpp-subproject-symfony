@@ -28,4 +28,4 @@ parameters:
     hwi_oauth.user.provider.fosub_bridge.class: AppBundle\Security\Core\User\OpenPPUserProvider
 
     # openpp client verify endpoint url
-    openpp_oauth_client.client_verify_url:    https://path.to/api/user/verify
+    openpp_oauth_client.client_verify_url:    https://path.to/api/verify/clients.json
