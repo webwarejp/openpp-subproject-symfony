@@ -29,8 +29,8 @@ hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
     prefix:   /login
 
-custom_login:
-    path: /login/check-custom
+openpp_login:
+    path: /login/check-openpp
 
 users:
     type:     rest

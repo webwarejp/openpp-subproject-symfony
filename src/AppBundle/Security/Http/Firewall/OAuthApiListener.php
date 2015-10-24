@@ -13,6 +13,7 @@ use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 use HWI\Bundle\OAuthBundle\Security\Core\Exception\OAuthAwareExceptionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Psr\Log\LoggerInterface;
+use AppBundle\Security\Core\Authentication\Token\OAuthApiToken;
 
 /**
  * Class OAuthApiListener
@@ -71,7 +72,9 @@ class OAuthApiListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        $header = $request->headers->get('Authorization');
+        $header        = $request->headers->get('Authorization');
+        $client_id     = $request->headers->get('X-OPENPP-CLIENTID');
+        $client_secret = $request->headers->get('X-OPENPP-CLIENTKEY');
 
         if (!$header) {
             throw new BadCredentialsException('No Bearer token found');
@@ -80,8 +83,10 @@ class OAuthApiListener implements ListenerInterface
         if (preg_match('/' . preg_quote(self::TOKEN_BEARER_HEADER_NAME, '/') . '\s(\S+)/', $header, $matches)) {
             $accessToken = $matches[1];
 
-            $token = new OAuthToken($accessToken);
+            $token = new OAuthApiToken($accessToken);
             $token->setResourceOwnerName($this->oauth2_resource_owner_name);
+            $token->setAttribute('client_id', $client_id);
+            $token->setAttribute('client_secret', $client_secret);
             try {
                 $returnValue = $this->authenticationManager->authenticate($token);
                 if ($returnValue instanceof TokenInterface) {

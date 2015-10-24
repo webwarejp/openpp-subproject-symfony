@@ -16,8 +16,7 @@ class OAuthApiFactory implements SecurityFactoryInterface
 {
     public function getPosition()
     {
-        return 'pre_auth';
-        //return 'http';
+        return 'http';
     }
 
     public function getKey()
@@ -31,15 +30,17 @@ class OAuthApiFactory implements SecurityFactoryInterface
 
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
-        $providerId = 'oauth2.security.authentication.provider';
+        $providerId = 'oauth2.security.authentication.provider.'.$id;
+
         $container
             ->setDefinition($providerId, new DefinitionDecorator('oauth2.security.authentication.provider'))
             ->replaceArgument(0, new Reference($userProvider))
         ;
-        $listenerId = 'oauth2.security.authentication.listener';
+
+        $listenerId = 'oauth2.security.authentication.listener.'.$id;
 
         $listener = $container->setDefinition($listenerId, new DefinitionDecorator('oauth2.security.authentication.listener'));
 
-        return array($providerId, $listenerId, $defaultEntryPoint);
+        return [$providerId, $listenerId, $defaultEntryPoint];
     }
 }

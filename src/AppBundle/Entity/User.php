@@ -6,7 +6,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="fos_user")
  * @ORM\HasLifecycleCallbacks
  */
@@ -31,13 +31,13 @@ class User extends BaseUser
      * @var string
      * @ORM\Column(type="integer", unique=true, nullable=false)
      */
-    protected $my_custom_id;
+    protected $pp_user_id;
+
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\OneToMany(targetEntity="Client", mappedBy="user", cascade={"persist"})
      */
-    protected $my_custom_access_token;
+    protected $clients;
 
     /**
      * @var \DateTime
@@ -53,46 +53,23 @@ class User extends BaseUser
      */
     protected $updatedAt;
 
-    /**
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-    }
 
     /**
      * @param $my_custom_id
      */
-    public function setMyCustomId($my_custom_id)
+    public function setPpUserId($pp_user_id)
     {
-        $this->my_custom_id = $my_custom_id;
+        $this->pp_user_id = $pp_user_id;
     }
 
     /**
      * @return string
      */
-    public function getMyCustomId()
+    public function getPpUserId()
     {
-        return $this->my_custom_id;
+        return $this->pp_user_id;
     }
 
-    /**
-     * @param $my_custom_access_token
-     */
-    public function setMyCustomAccessToken($my_custom_access_token)
-    {
-        $this->my_custom_access_token = $my_custom_access_token;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMyCustomAccessToken()
-    {
-        return $this->my_custom_access_token;
-    }
 
     /**
      * @ORM\PrePersist
@@ -110,5 +87,124 @@ class User extends BaseUser
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add clients
+     *
+     * @param \AppBundle\Entity\Client $clients
+     * @return User
+     */
+    public function addClient(\AppBundle\Entity\Client $clients)
+    {
+        $this->clients[] = $clients;
+
+        return $this;
+    }
+
+    /**
+     * Remove clients
+     *
+     * @param \AppBundle\Entity\Client $clients
+     */
+    public function removeClient(\AppBundle\Entity\Client $clients)
+    {
+        $this->clients->removeElement($clients);
+    }
+
+    /**
+     * Get clients
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClients()
+    {
+        return $this->clients;
     }
 }

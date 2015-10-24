@@ -22,7 +22,7 @@ security:
             security: false
         ## api firewall
         api:
-            pattern:   ^/api/
+            pattern:   ^/api/.*
             oauth-api: true
 
         main:
@@ -36,17 +36,17 @@ security:
             anonymous:    true
             oauth:
                 resource_owners:
-                    my_custom: "/login/check-custom"
-                login_path:        /connect/my_custom
-                failure_path:      /connect
+                    openpp: "/login/check-openpp"
+                login_path:        /connect/openpp
+                failure_path:      /connect/
+                # FOSUB integration
                 oauth_user_provider:
                     service: hwi_oauth.user.provider.fosub_bridge
 
     access_control:
         # api server
-        - { path: ^/api,       role: ROLE_USER } ##ROLE_USER
-
-        - { path: ^/$,         role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api,       role: ROLE_USER }
+        - { path: ^/$,         role: ROLE_USER }
         - { path: ^/login$,    role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register,  role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
